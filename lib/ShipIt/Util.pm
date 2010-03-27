@@ -4,7 +4,7 @@ use Carp qw(croak confess);
 require Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT_OK = qw(slurp write_file bool_prompt edit_file $term make_var tempdir_obj
-                    in_dir);
+                    find_subclasses in_dir);
 use Term::ReadLine ();
 use File::Temp ();
 use File::Path ();
@@ -15,12 +15,13 @@ our $term = Term::ReadLine->new("prompt");
 sub slurp {
     my ($file) = @_;
     open (my $fh, $file) or confess "Failed to open $file: $!\n";
-    return do { local $/; <$fh>; }
+    return do { local $/; binmode $fh; <$fh>; }
 }
 
 sub write_file {
     my ($file, $contents) = @_;
     open (my $fh, ">", $file) or confess "Failed to open $file for write: $!\n";
+    binmode $fh;
     print $fh $contents;
     close($fh) or confess "Close failed";
     die "assert" unless -s $file == length($contents);
@@ -57,8 +58,22 @@ sub edit_file {
 sub make_var {
     my $var = shift;
     my $file = slurp("Makefile");
-    return undef unless $file =~ /^\Q$var\E\s*=\s*(.+)/m;
+    return undef unless $file =~ /^\Q$var\E\s*=\s*(.+)\s*/m;
     return $1;
+}
+
+sub find_subclasses {
+    # search for any other custom project type modules
+    my $class = shift;
+    my @classes = ();  
+    for my $dir (@INC) {
+        for my $file (glob("$dir/" . join("/", split(/::/, $class)) . "/*.pm")) {
+            if($file =~ /\/(\w+)\.pm/) {
+                push(@classes, "$class" . "::" . "$1");
+            }
+        }
+    }
+    return @classes;
 }
 
 # returns either $obj or ($obj->dir, $obj), when in list context.

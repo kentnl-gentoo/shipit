@@ -6,7 +6,7 @@ use ShipIt::State;
 use ShipIt::VC;
 use ShipIt::Util;
 
-$VERSION = '0.53';
+$VERSION = '0.54';
 
 =head1 NAME
 
@@ -77,6 +77,12 @@ From the root directory of your project, where your new .shipit config file is, 
 And then it does the rest, after verifying with you the version number you want to release.
 
 If you're really cautious, run with "shipit --dry-run" instead.
+
+=head1 CONTRIBUTING
+
+If you'd like to contribute to ShipIt (with either a bug report or patch), see:
+
+L<http://contributing.appspot.com/shipit>
 
 =cut
 

@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                ShipIt
-version:             0.53
+version:             0.54
 abstract:            software release tool
 license:             ~
 author:              
