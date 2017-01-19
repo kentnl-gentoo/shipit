@@ -34,7 +34,6 @@ shipit
 t/data/Perl/01.pm
 t/data/Perl/02.pm
 t/data/Perl/03.pm
-t/data/Perl/04.pm
 t/data/Perl/05.pm
 t/data/Perl/06.pm
 t/data/Perl/07.pm

@@ -12,7 +12,7 @@ ok($proj);
 
 my $basedir = catfile(qw(t data Perl));
 
-for my $filenum ( 1 .. 7 ) {
+for my $filenum ( 1 .. 3, 5 .. 7 ) {
     my $origfile = catfile( $basedir, sprintf( '%02d.pm', $filenum ) );
 
     # check we read in the version correctly
@@ -33,7 +33,7 @@ for my $filenum ( 1 .. 7 ) {
 # cleanup
 END {
     eval {
-        for ( 1 .. 7 )
+        for ( 1 .. 3, 5 .. 7 )
         {
             unlink catfile( $basedir, sprintf( '%02d.pm.new', $_ ) );
         }
